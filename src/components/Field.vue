@@ -11,24 +11,18 @@ const props = defineProps({
     type: String,
     required: true,
     default: "email",
-  },
-  options: {
-    type: Array,
-    required: false,
-    default: [],
-  },
+  }
 });
 
-const values = reactive(inject("initialValues"));
+const values = reactive(inject("formValues"));
 
-const checkInput = () => {
+const isNotValidInput = () => {
   return !inputType.includes(props.type);
 };
-console.log(values);
 </script>
 
 <template>
-  <div v-if="checkInput()">Wolverine</div>
+  <div v-if="isNotValidInput()">Toto</div>
   <div v-else>
     <label :for="name">{{ name }}</label>
     <input
@@ -38,9 +32,7 @@ console.log(values);
       v-model="values[type]"
     />
     <select v-else :name="name" v-model="values[type]">
-      <option v-for="option in options" :value="option.value">
-        {{ option.label }}
-      </option>
+      <slot></slot>
     </select>
   </div>
 </template>
