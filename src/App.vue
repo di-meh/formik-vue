@@ -1,19 +1,20 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
+import Field from './components/Field.vue'
+import Formik from './components/Formik.vue'
+
+
 </script>
 
 <template>
   <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
+    <h1>OKlmZer</h1>
   </header>
 
-  <main>
-    <TheWelcome />
+  <main class="container">
+    <Formik>
+      <Field type="email" name="email" />
+      <Field type="select" name="toto" :options="options" />
+    </Formik>
   </main>
 </template>
 
