@@ -4,7 +4,7 @@
   <select v-else-if="as === 'select'" :name="name" v-model="fieldValue">
     <slot></slot>
   </select>
-  <component v-else :is="as" :name="name"></component>
+  <component v-else :is="as" :name="name" @updateFormikValue="(value) => updateValue(name, value)"></component>
 </template>
 
 <script setup>
