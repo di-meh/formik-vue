@@ -1,21 +1,22 @@
 <script setup>
-import { objectToString } from '@vue/shared';
-
+import { provide } from 'vue'
 
     const props = defineProps({
         validate: {
             type: Function,
-            required: true,
+            required: false,
         },
         initialValues: {
             type: Object,
-            required: true,
+            required: false,
         },
         onSubmit: {
             type: Function,
-            required: true
+            required: false
         }
     })
+
+provide('initialValues', initialValues)
 
 </script>
 
