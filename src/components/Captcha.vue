@@ -1,9 +1,7 @@
 <script setup>
+import {inject} from "vue";
+
 defineProps({
-  captcha: {
-    type: Object,
-    required: true,
-  },
   name: {
     type: String,
     required: true,
@@ -14,25 +12,21 @@ defineProps({
   },
 });
 
-const emit = defineEmits({
-  "updateFormikValue": function validator(value) {
-    return typeof value === "object" && value.id && value.img;
-  },
-  toto: () => true,
-});
+const emit = defineEmits(["updateFormikValue"]);
 
 function handleClick(value) {
   emit("updateFormikValue", value);
 }
+
+const formValues = inject("formValues");
 </script>
 
 <template>
   <div class="grid">
     <div
-        :class="['grid-item', { selected: modelValue?.id === option.id }]"
+        :class="['grid-item', { selected: formValues[name] === option.id }]"
         v-for="option in options"
     >
-      <!--img :src="option.img" @click="$emit('update:modelValue', option)" /-->
       <img
           :src="option.img"
           @click.exact="handleClick(option.id)"

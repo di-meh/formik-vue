@@ -54,8 +54,8 @@ const initialValues = {
 const onSubmit = (values, { setSubmitting, resetValues }) => {
   setTimeout(() => {
     setSubmitting(false);
-    console.log(toRaw(values.value), "onSubmit");
     resetValues();
+    console.log(toRaw(values.value), "after reset");
   }, 1000);
 };
 const validate = (values) => {
@@ -82,7 +82,7 @@ const validate = (values) => {
     <Field name="test3" as="select">
       <option v-for="option in options" :value="option.value">{{ option.label }}</option>
     </Field>
-<!--    <Field name="captcha" :as="Captcha" :options="captchaOptions"/>-->
+    <Field name="captcha" :as="Captcha" :options="captchaOptions"/>
     <button type="submit">Submit</button>
   </Formik>
 

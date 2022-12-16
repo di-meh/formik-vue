@@ -35,13 +35,14 @@ const handleSubmit = () => {
     isSubmitting.value = false;
     errors.value.forEach((error) => console.error(error));
   }
-  console.log(toRaw(values.value), "handleSubmit");
+  console.log(toRaw(values.value), "submitted values");
 }
 const updateValue = (name, value) => {
   values.value[name] = value;
 }
 
 provide("initialValues", props.initialValues);
+provide("formValues", values);
 provide("updateValue", updateValue);
 provide("setSubmitting", setSubmitting);
 
