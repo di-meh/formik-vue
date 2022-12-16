@@ -16,23 +16,24 @@ const props = defineProps({
 });
 
 const isSubmitting = ref(false);
-const errors = reactive([]);
+const errors = ref([]);
 const values = ref({...props.initialValues});
 
 const setSubmitting = (value) => isSubmitting.value = value;
 const resetValues = () => values.value = props.initialValues;
 const handleSubmit = () => {
   isSubmitting.value = true;
+  errors.value = [];
   if (props.validate) {
-    Object.assign(errors, props.validate(values.value));
+    Object.assign(errors.value, props.validate(values.value));
   }
 
-  if (Object.keys(errors).length === 0) {
+  if (Object.keys(errors.value).length === 0) {
     props.onSubmit(values, {setSubmitting, resetValues});
   }
   else {
     isSubmitting.value = false;
-    errors.forEach((error) => console.error(error));
+    errors.value.forEach((error) => console.error(error));
   }
   console.log(toRaw(values.value), "handleSubmit");
 }
