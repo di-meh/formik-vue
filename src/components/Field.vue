@@ -8,10 +8,10 @@
 </template>
 
 <script setup>
-import {ref} from "vue";
+import {ref, onBeforeMount, inject} from "vue";
 import inputTypes from "@/utils/inputTypes.js";
 
-defineProps({
+const props = defineProps({
   as: {
     type: [String, Object],
     required: false,
@@ -42,6 +42,13 @@ defineProps({
 })
 
 const fieldValue = ref('')
+
+onBeforeMount(() => {
+  const initialValues = inject('initialValues')
+  if (initialValues) {
+    fieldValue.value = initialValues[props.name]
+  }
+})
 </script>
 
 <style scoped>
