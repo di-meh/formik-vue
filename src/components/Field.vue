@@ -1,40 +1,53 @@
+<template>
+  <input v-if="!as || as === 'input'" :type="type" :name="name" :placeholder="placeholder" v-model="fieldValue">
+  <textarea v-else-if="as === 'textarea'" :name="name" :placeholder="placeholder" v-model="fieldValue"></textarea>
+  <select v-else-if="as === 'select'" :name="name" v-model="fieldValue">
+    <slot></slot>
+  </select>
+  <component v-else :is="as" :name="name"></component>
+</template>
+
 <script setup>
-import { inputType } from "../enum";
-import { reactive, inject } from "vue";
+import {ref, onBeforeMount, inject, reactive} from "vue";
+import inputTypes from "@/utils/inputTypes.js";
 const props = defineProps({
-  type: {
-    type: String,
-    required: true,
-    default: "email",
+  as: {
+    type: [String, Object],
+    required: false,
+    default: "input"
   },
   name: {
     type: String,
-    required: true,
-    default: "email",
+    required: true
+  },
+  placeholder: {
+    type: String,
+    required: false,
+    default: null
+  },
+  type: {
+    type: String,
+    required: false,
+    default: 'text',
+    validator(value) {
+      return inputTypes.includes(value)
+    }
+  },
+  options: {
+    type: Array,
+    required: false,
+    default: null
   }
 });
 
-const values = reactive(inject("formValues"));
+const fieldValue = ref("");
+onBeforeMount(() => {
+  console.log("Field mounted");
+  const initialValues = inject('formValues')
+  if (initialValues && initialValues[props.name]) {
+    fieldValue.value = initialValues[props.name]
+  }
+})
 
-const isNotValidInput = () => {
-  return !inputType.includes(props.type);
-};
 </script>
-
-<template>
-  <div v-if="isNotValidInput()">Toto</div>
-  <div v-else>
-    <label :for="name">{{ name }}</label>
-    <input
-      v-if="type !== 'select'"
-      :type="type"
-      :name="name"
-      v-model="values[type]"
-    />
-    <select v-else :name="name" v-model="values[type]">
-      <slot></slot>
-    </select>
-  </div>
-</template>
-
 <style scoped></style>

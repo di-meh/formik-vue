@@ -8,16 +8,16 @@ const options = [
   { value: "2", label: "Option 2" },
   { value: "3", label: "Option 3" },
 ];
-const isSubmit = ref(false);
 const initialValues = {
-  email: "test@test.com",
+  name: "John",
+  email: "john@doe.com",
   password: "password",
+  test3: 2
 };
-
+const isSubmit = ref(false);
 const submit = (values) => {
-  console.log(values, "submit fonction");
+  console.log(values);
 };
-
 const validate = (values) => {
   const errors = {};
   if (!values.email) {
@@ -27,47 +27,24 @@ const validate = (values) => {
   }
   return errors;
 };
-
 const handleSubmit = (event) => {
   event.preventDefault();
   isSubmit.value = true;
-};
+}
 </script>
 
 <template>
-  <header>
-    <h1>He ça formik ou pas</h1>
-  </header>
-
-  <main class="container">
-    <Formik
-      :initial-values="initialValues"
-      :on-submit="submit"
-      :validate="validate"
-      :is-submit="isSubmit"
-      @submitted="isSubmit = false"
-    >
-      <Field type="email" name="email" />
-      <Field type="password" name="password" />
-      <Field type="select" name="select">
-        <option v-for="option in options" :value="option.value">
-          {{ option.label }}
-        </option>
-      </Field>
-      <button type="submit" @click="handleSubmit">Submit</button>
-    </Formik>
-  </main>
+  <Formik :initial-values="initialValues" :on-submit="submit" :is-submit="isSubmit" :validate="validate" @submitted="isSubmit = false">
+    <Field name="name" as="input" type="text" />
+    <Field name="email" as="input" type="email" />
+    <Field name="password" as="input" type="password" />
+    <Field name="test3" as="select">
+      <option v-for="option in options" :value="option.value">{{ option.label }}</option>
+    </Field>
+  </Formik>
+  <button type="submit" @click="handleSubmit">Submit</button>
 </template>
 
 <style>
-.header {
-  background-color: #f1f1f1;
-  padding: 30px;
-  text-align: center;
-}
-.container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
+
 </style>

@@ -5,11 +5,11 @@ const emit = defineEmits(['submitted']);
 const props = defineProps({
   validate: {
     type: Function,
-    required: true,
+    required: false,
   },
   initialValues: {
     type: Object,
-    required: false,
+    required: true,
   },
   onSubmit: {
     type: Function,
@@ -17,13 +17,13 @@ const props = defineProps({
   },
   isSubmit: {
     type: Boolean,
-    required: true,
+    required: false,
   }
 });
 
 provide("formValues", props.initialValues);
-
 onUpdated(() => {
+  console.log("Formik updated");
   if (props.isSubmit) {
     const errors = props.validate(props.initialValues);
     if (Object.keys(errors).length === 0) {
