@@ -1,4 +1,4 @@
-export const inputTypes =  [
+export default [
     'button',
     'checkbox',
     'color',
