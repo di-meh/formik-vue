@@ -1,50 +1,45 @@
 <script setup>
-import Field from './components/Field.vue'
-import Formik from './components/Formik.vue'
+import Field from "./components/Field.vue";
+import Formik from "./components/Formik.vue";
 
+const options = [
+  { value: "1", label: "Option 1" },
+  { value: "2", label: "Option 2" },
+  { value: "3", label: "Option 3" },
+];
+const initialValues = {
+  email: "test@test.com",
+  password: "password",
+};
 
+const submit = (values) => {
+  console.log(values);
+};
+
+const validate = (values) => {
+  console.log(values);
+};
 </script>
 
 <template>
   <header>
-    <h1>OKlmZer</h1>
+    <h1>Formulaire</h1>
   </header>
 
-  <main class="container">
-    <Formik>
+  <main class="main">
+    <Formik
+      v-slot="slotProps"
+      :initial-values="initialValues"
+      :on-submit="submit"
+      :validate="validate"
+    >
       <Field type="email" name="email" />
-      <Field type="select" name="toto" :options="options" />
+      <Field type="password" name="password" />
+      <button type="submit">Valider</button>
     </Formik>
   </main>
 </template>
 
-<style scoped>
-header {
-  line-height: 1.5;
-}
+<style>
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-}
 </style>
-
-

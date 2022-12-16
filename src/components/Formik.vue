@@ -1,26 +1,22 @@
 <script setup>
 import { provide } from 'vue'
-
-    const props = defineProps({
-        validate: {
-            type: Function,
-            required: false,
-        },
-        initialValues: {
-            type: Object,
-            required: false,
-        },
-        onSubmit: {
-            type: Function,
-            required: false
-        }
-    })
-
-provide('initialValues', initialValues)
-
+const props = defineProps({
+  validate: {
+    type: Function,
+    required: true,
+  },
+  initialValues: {
+    type: Object,
+    required: false,
+  },
+  onSubmit: {
+    type: Function,
+    required: true,
+  },
+});
+provide('initialValues', props.initialValues)
 </script>
 
-
 <template>
-    <slot :values="initialValues"></slot>
+  <slot></slot>
 </template>
