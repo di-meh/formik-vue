@@ -8,7 +8,7 @@
 </template>
 
 <script setup>
-import {ref, onBeforeMount, inject, reactive} from "vue";
+import {ref, onBeforeMount, inject, reactive, watch} from "vue";
 import inputTypes from "@/utils/inputTypes.js";
 const props = defineProps({
   as: {
@@ -33,21 +33,21 @@ const props = defineProps({
       return inputTypes.includes(value)
     }
   },
-  options: {
-    type: Array,
-    required: false,
-    default: null
-  }
 });
 
 const fieldValue = ref("");
+const updateValue = inject("updateValue");
 onBeforeMount(() => {
-  console.log("Field mounted");
-  const initialValues = inject('formValues')
+  const initialValues = inject('initialValues')
   if (initialValues && initialValues[props.name]) {
     fieldValue.value = initialValues[props.name]
   }
 })
+
+watch(fieldValue, (value) => {
+  updateValue(props.name, value);
+})
+
 
 </script>
 <style scoped></style>

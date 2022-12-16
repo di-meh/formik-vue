@@ -1,7 +1,7 @@
 <script setup>
 import Field from "./components/Field.vue";
 import Formik from "./components/Formik.vue";
-import { ref } from "vue";
+import {toRaw} from "vue";
 
 const options = [
   { value: "1", label: "Option 1" },
@@ -14,35 +14,41 @@ const initialValues = {
   password: "password",
   test3: 2
 };
-const isSubmit = ref(false);
-const submit = (values) => {
-  console.log(values);
+
+const onSubmit = (values, { setSubmitting, resetValues }) => {
+  setTimeout(() => {
+    setSubmitting(false);
+    console.log(toRaw(values.value), "onSubmit");
+    resetValues();
+  }, 1000);
 };
 const validate = (values) => {
-  const errors = {};
+  const errors = [];
   if (!values.email) {
-    errors.email = "Required";
+    errors.push("Email is required");
   } else if (!/\S+@\S+\.\S+/.test(values.email)) {
-    errors.email = "Invalid email address";
+    errors.push("Email is invalid");
   }
+  // Mettez tout ce que vous voulez comme condition de validation ici
+
   return errors;
 };
-const handleSubmit = (event) => {
-  event.preventDefault();
-  isSubmit.value = true;
-}
+
 </script>
 
 <template>
-  <Formik :initial-values="initialValues" :on-submit="submit" :is-submit="isSubmit" :validate="validate" @submitted="isSubmit = false">
+  <h1>Formik-Vue</h1>
+  <h2>Par Mehdi SABER et Souleymane GUEYE</h2>
+  <Formik :initial-values="initialValues" :on-submit="onSubmit" :validate="validate">
     <Field name="name" as="input" type="text" />
     <Field name="email" as="input" type="email" />
     <Field name="password" as="input" type="password" />
     <Field name="test3" as="select">
       <option v-for="option in options" :value="option.value">{{ option.label }}</option>
     </Field>
+    <button type="submit">Submit</button>
   </Formik>
-  <button type="submit" @click="handleSubmit">Submit</button>
+
 </template>
 
 <style>
